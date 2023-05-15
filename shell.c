@@ -1,6 +1,8 @@
 #include "main.h"
 #include <string.h>
 #include <signal.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 /**
  * non_interactive - non_interactive in shell
  * @av: argument
@@ -42,40 +44,45 @@ void non_interactive(char **av, char **env)
  */
 int main(int ac, char **av, char **env)
 {
-	char *argv[] = {"/bin/ls",NULL};
+	char **argv;
 	long unsigned int size = 0;
 	char *s = NULL;
-	int st, w;
-	pid_t id;
-	(void)ac;
+	int st;
+        pid_t id;
+	struct stat file;
+	(void) ac;
 
 	if (!isatty(STDIN_FILENO))
 		non_interactive(av, env);
-
 	while(isatty(STDIN_FILENO))
 	{
+		write (1, "#cisfun$ ", 9);
+		if (getline(&s, &size, stdin) != -1)
+		{
+			argv = command_line(s);
+			if (!(argv[0]))
+				continue;
+			if (stat(argv[0], &file) == -1)
+			{
+				perror(av[0]);
+				continue;
+			}
+		}
+		else
+			exit(1);
 		id = fork();
 		if(id == -1)
 			exit(1);
 		if (id != 0)
 		{
-			w = waitpid(id, &st, 0);
-			if(WSTOPSIG(st) == 1 || w == -1)
-				exit(1);
+			waitpid(id, &st, 0);
 			continue;
 		}
-		write (1, "#cisfun$ ", 9);
-		if (getline(&s, &size, stdin) != -1)
+		if (execve(argv[0], argv, env) == -1)
 		{
-			argv[0] = strtok(strtok(s,"\n")," ");
-			if (argv[0] != NULL && execve(argv[0], argv, env) == -1)
-			{
-				free(s);
-				perror(av[0]);
-			}
+			free(s);
+			perror(av[0]);
 		}
-		else
-			exit(1);
 	
 
 	}
