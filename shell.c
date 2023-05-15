@@ -44,7 +44,7 @@ void non_interactive(char **av, char **env)
  */
 int main(int ac, char **av, char **env)
 {
-	char **argv;
+	char **argv = NULL;
 	long unsigned int size = 0;
 	char *s = NULL;
 	int st;
@@ -57,6 +57,8 @@ int main(int ac, char **av, char **env)
 	while(isatty(STDIN_FILENO))
 	{
 		write (1, "#cisfun$ ", 9);
+		if (argv != NULL)
+			free(argv);
 		if (getline(&s, &size, stdin) != -1)
 		{
 			argv = command_line(s);
@@ -84,7 +86,7 @@ int main(int ac, char **av, char **env)
 			perror(av[0]);
 		}
 	
-
+	
 	}
 	if(s)
 		free(s);
