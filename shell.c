@@ -45,6 +45,7 @@ int main(int ac, char **av, char **env)
 	char *argv[] = {"/bin/ls",NULL};
 	long unsigned int size = 0;
 	char *s = NULL;
+	int st, w;
 	pid_t id;
 	(void)ac;
 
@@ -54,9 +55,13 @@ int main(int ac, char **av, char **env)
 	while(isatty(STDIN_FILENO))
 	{
 		id = fork();
+		if(id == -1)
+			exit(1);
 		if (id != 0)
 		{
-			wait(NULL);
+			w = waitpid(id, &st, 0);
+			if(WSTOPSIG(st) == 1 || w == -1)
+				exit(1);
 			continue;
 		}
 		write (1, "#cisfun$ ", 9);
@@ -70,7 +75,7 @@ int main(int ac, char **av, char **env)
 			}
 		}
 		else
-			exit(0);
+			exit(1);
 	
 
 	}
