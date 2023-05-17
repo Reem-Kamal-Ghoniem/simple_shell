@@ -4,21 +4,14 @@
  * @s: the entered command
  * Return: void
  */
-void exit_status(char *s)
+void exit_status(char **tok)
 {
-	char *tok;
-	char *tok1;
 	int status;
-
-	tok1 = strtok(s, "\n");
-	tok = strtok(tok1, " ");
-	if (tok != NULL && strcmp(tok, "exit") == 0)
+	if (tok[0] != NULL && stringcmp(tok[0], "exit"))
 	{
-
-		tok = strtok(NULL, "\n");
-		if (tok != NULL) 
+		if (tok[1] != NULL) 
 		{
-			status = atoi(tok);
+			status = atoi(tok[1]);
 			_exit(status);
 		}
 		else
