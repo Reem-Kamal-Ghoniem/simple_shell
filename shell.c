@@ -42,15 +42,16 @@ void non_interactive(char **av, char **env)
  * @env: environment
  * Return: 0 on success
  */
-int main(int ac, char **av, char **env)
+extern char** environ;
+int main(__attribute__((unused))int ac, char **av, char **env)
 {
 	char **argv = NULL;
-	long unsigned int size = 0;
+	unsigned long int size = 0;
 	char *s = NULL;
+        char *t;
 	int st;
         pid_t id;
 	struct stat file;
-	(void) ac;
 
 	if (!isatty(STDIN_FILENO))
 		non_interactive(av, env);
@@ -59,21 +60,20 @@ int main(int ac, char **av, char **env)
 		write (1, "#cisfun$ ", 9);
 		if (argv != NULL)
 			free(argv);
-		if (getline(&s, &size, stdin) != -1)
-		{
-			argv = command_line(s);
-			if (!(argv[0]))
-				continue;
-			if (stat(argv[0], &file) == -1)
-			{
-				perror(av[0]);
-				continue;
-			}
-		}
-		else
+		if (getline(&s, &size, stdin) == -1)
 			exit(1);
-		id = fork();
-		if(id == -1)
+		argv = command_line(s);
+		if (!(argv[0]))
+			continue;
+		t = _path(argv[0], environ);
+		if(t)
+			free(argv[0]), argv[0] = t;
+		if (stat(argv[0], &file) == -1)
+		{
+			perror(av[0]);
+			continue;
+		}
+		if((id = fork()) == -1)
 			exit(1);
 		if (id != 0)
 		{
@@ -81,14 +81,7 @@ int main(int ac, char **av, char **env)
 			continue;
 		}
 		if (execve(argv[0], argv, env) == -1)
-		{
-			free(s);
-			perror(av[0]);
-		}
-	
-	
+			perror(av[0]), exit(1);
 	}
-	if(s)
-		free(s);
 	return (0);
 }
