@@ -63,6 +63,7 @@ int main(__attribute__((unused))int ac, char **av, char **env)
 		if (getline(&s, &size, stdin) == -1)
 			exit(1);
 		argv = command_line(s);
+		exit_status(s);
 		if (!(argv[0]))
 			continue;
 		t = _path(argv[0], environ);
