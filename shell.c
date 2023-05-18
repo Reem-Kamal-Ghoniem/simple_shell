@@ -58,6 +58,8 @@ int main(__attribute__((unused))int ac, char **av, char **env)
 			exit(1);
 		argv = command_line(s);
 		exit_status(argv);
+		if (environment(argv))
+			continue;
 		if (!(argv[0]))
 			continue;
 		t = _path(argv[0], environ);

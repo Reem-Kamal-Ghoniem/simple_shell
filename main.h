@@ -20,4 +20,5 @@ void free_argv(char **argv);
 int stringlen(char *str);
 int stringcmp(char *str1, char *str2);
 void exit_status(char **tok);
+int environment(char **tok);
 #endif
