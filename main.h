@@ -21,4 +21,5 @@ int stringlen(char *str);
 int stringcmp(char *str1, char *str2);
 void exit_status(char **tok);
 int environment(char **tok);
+int _cd(char *name, char **arg, char **env);
 #endif

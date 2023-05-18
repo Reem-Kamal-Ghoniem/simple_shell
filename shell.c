@@ -11,7 +11,7 @@
 void non_interactive(char **av, char **env)
 {
 	char *argv[] = {"/bin/ls", NULL};
-	long unsigned int size = 0;
+	size_t size = 0;
 	char *s = NULL;
 	pid_t id;
 
@@ -38,39 +38,38 @@ void non_interactive(char **av, char **env)
  * @env: environment
  * Return: 0 on success
  */
-extern char** environ;
 int main(__attribute__((unused))int ac, char **av, char **env)
 {
 	char **argv = NULL;
 	size_t size = 0;
 	char *s = NULL;
-        char *t;
+	char *t;
 	int st;
-        pid_t id;
+	pid_t id;
 	struct stat file;
 
 	if (!isatty(STDIN_FILENO))
 		non_interactive(av, env);
-	while(isatty(STDIN_FILENO))
+	while (isatty(STDIN_FILENO))
 	{
 		write(1, "#cisfun$ ", 9);
 		if (getline(&s, &size, stdin) == -1)
 			exit(1);
 		argv = command_line(s);
 		exit_status(argv);
-		if (environment(argv))
+		if (environment(argv) || _cd(av[0], argv, env))
 			continue;
 		if (!(argv[0]))
 			continue;
-		t = _path(argv[0], environ);
+		t = _path(argv[0], env);
 		if (t)
 			free(argv[0]), argv[0] = t;
 		if (stat(argv[0], &file) == -1)
 		{
 			perror(av[0]);
 			continue;
-		}
-		if((id = fork()) == -1)
+		} id = fork();
+		if (id == -1)
 			exit(1);
 		if (id != 0)
 		{

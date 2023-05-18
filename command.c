@@ -24,7 +24,7 @@ char **command_line(char *s)
 	while (tok != NULL)
 	{
 		argv[index] = malloc(stringlen(tok) + 1);
-		for(i = 0; i < stringlen(tok); i++)
+		for (i = 0; i < stringlen(tok); i++)
 			argv[index][i] = tok[i];
 		index++;
 		tok = strtok(NULL, " ");
@@ -62,7 +62,7 @@ int stringlen(char *str)
 
 	if (str == NULL)
 		return (0);
-	while(str[len] != '\0')
+	while (str[len] != '\0')
 		len++;
 
 	return (len);
@@ -80,7 +80,7 @@ int stringcmp(char *str1, char *str2)
 	while (str1[i] != '\0')
 	{
 		if (str1[i] != str2[i])
-		{	
+		{
 			return (0);
 		}
 		i++;
