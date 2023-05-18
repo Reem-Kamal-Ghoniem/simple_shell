@@ -10,7 +10,7 @@
  */
 void non_interactive(char **av, char **env)
 {
-	char *argv[] = {"/bin/ls",NULL};
+	char *argv[] = {"/bin/ls", NULL};
 	long unsigned int size = 0;
 	char *s = NULL;
 	pid_t id;
@@ -19,21 +19,17 @@ void non_interactive(char **av, char **env)
 	if (id != 0)
 	{
 		wait(NULL);
-		write (1, "#cisfun$ ", 9);
+		write(1, "#cisfun$ ", 9);
 		return;
 	}
-		
 
 	if (getline(&s, &size, stdin) != -1)
 	{
-		argv[0] = strtok(strtok(s,"\n")," ");
+		argv[0] = strtok(strtok(s, "\n"), " ");
 		if (execve(argv[0], argv, env) == -1)
 			perror(av[0]);
 		free(s);
 	}
-
-
-
 }
 /**
  * main - simple shell
@@ -46,7 +42,7 @@ extern char** environ;
 int main(__attribute__((unused))int ac, char **av, char **env)
 {
 	char **argv = NULL;
-	unsigned long int size = 0;
+	size_t size = 0;
 	char *s = NULL;
         char *t;
 	int st;
@@ -57,9 +53,7 @@ int main(__attribute__((unused))int ac, char **av, char **env)
 		non_interactive(av, env);
 	while(isatty(STDIN_FILENO))
 	{
-		write (1, "#cisfun$ ", 9);
-		if (argv != NULL)
-			free(argv);
+		write(1, "#cisfun$ ", 9);
 		if (getline(&s, &size, stdin) == -1)
 			exit(1);
 		argv = command_line(s);
@@ -67,7 +61,7 @@ int main(__attribute__((unused))int ac, char **av, char **env)
 		if (!(argv[0]))
 			continue;
 		t = _path(argv[0], environ);
-		if(t)
+		if (t)
 			free(argv[0]), argv[0] = t;
 		if (stat(argv[0], &file) == -1)
 		{
