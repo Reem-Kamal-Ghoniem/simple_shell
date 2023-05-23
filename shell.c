@@ -12,7 +12,7 @@ void non_interactive(char **av, char **env)
 {
 	char **argv = NULL;
 	size_t size = 0;
-	char *s = "", *t;
+	char *s = NULL, *t;
 	pid_t id;
 
 
@@ -25,7 +25,7 @@ void non_interactive(char **av, char **env)
 	}
 
 
-	if (get(&s, &size, 0) == -1)
+	if (getline(&s, &size, stdin) == -1)
 		exit(1);
 	argv = command_line(s);
 	exit_status(argv);
