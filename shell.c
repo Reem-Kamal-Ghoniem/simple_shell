@@ -10,26 +10,33 @@
  */
 void non_interactive(char **av, char **env)
 {
-	char *argv[] = {"/bin/ls", NULL};
+	char **argv = NULL;
 	size_t size = 0;
-	char *s = NULL;
+	char *s = "", *t;
 	pid_t id;
+
 
 	id = fork();
 	if (id != 0)
 	{
 		wait(NULL);
-		write(1, "#cisfun$ ", 9);
+		free_argv(argv);
 		return;
 	}
 
-	if (getline(&s, &size, stdin) != -1)
-	{
-		argv[0] = strtok(strtok(s, "\n"), " ");
-		if (execve(argv[0], argv, env) == -1)
-			perror(av[0]);
-		free(s);
-	}
+
+	if (get(&s, &size, 0) == -1)
+		exit(1);
+	argv = command_line(s);
+	exit_status(argv);
+	if (!(argv[0]) || environment(argv) || _cd(av[0], argv, env))
+		return;;
+	t = _path(argv[0], env);
+	if (t)
+		argv[0] = t;
+	if (execve(argv[0], argv, env) == -1)
+		perror(av[0]);
+
 }
 /**
  * main - simple shell
@@ -42,8 +49,7 @@ int main(__attribute__((unused))int ac, char **av, char **env)
 {
 	char **argv = NULL;
 	size_t size = 0;
-	char *s = NULL;
-	char *t;
+	char *s = NULL, *t;
 	int st;
 	pid_t id;
 	struct stat file;
@@ -52,33 +58,34 @@ int main(__attribute__((unused))int ac, char **av, char **env)
 		non_interactive(av, env);
 	while (isatty(STDIN_FILENO))
 	{
+/*		if (av[1])
+		{
+			fd = open(av[1], O_RDONLY);
+			if (fd == -1)
+				perror(av[0]), exit(1);
+		}
+		else*/
 		write(1, "#cisfun$ ", 9);
 		if (getline(&s, &size, stdin) == -1)
 			exit(1);
-		argv = command_line(s);
-		exit_status(argv);
-		if (environment(argv) || _cd(av[0], argv, env))
-			continue;
-		if (!(argv[0]))
+		argv = command_line(s), exit_status(argv);
+		if (!(argv[0]) || environment(argv) || _cd(av[0], argv, env))
 			continue;
 		t = _path(argv[0], env);
 		if (t)
-			free(argv[0]), argv[0] = t;
+			argv[0] = t;
 		if (stat(argv[0], &file) == -1)
 		{
 			perror(av[0]);
 			continue;
 		} id = fork();
-		if (id == -1)
-			exit(1);
-		if (id != 0)
+		if (id > 0)
 		{
 			waitpid(id, &st, 0);
 			continue;
 		}
-		if (execve(argv[0], argv, env) == -1)
+		if (id == -1 || execve(argv[0], argv, env) == -1)
 			perror(av[0]), exit(1);
 		free_argv(argv);
-	}
-	return (0);
+	} return (0);
 }

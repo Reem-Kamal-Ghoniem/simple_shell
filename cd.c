@@ -28,6 +28,8 @@ int _cd(char *name, char **arg, char **env)
 	else
 		if (chdir(getenv("HOME")))
 			perror(name);
+
+
 	return (1);
 }
 

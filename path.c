@@ -9,14 +9,19 @@
 char *string_concat(char *path, char *ss, char *s)
 {
 
-	unsigned int i, j;
+	unsigned int i = 0, j, k;
 	char *ret;
 
 	ret = malloc(strlen(path) + strlen(s) + 2);
+	if(!ret)
+		return(ret);
 	for (i = 0; i < strlen(path); i++)
 		ret[i] = path[i];
-	ret[i] = ss[0];
-	i++;
+	for (k = 0; k < strlen(ss); k++)
+	{
+		ret[i] = ss[k];
+		i++;
+	}
 	for (j = 0; j < strlen(s); j++)
 	{
 		ret[i + j] = s[j];
@@ -46,7 +51,6 @@ char *path_ch(char *s, char *path)
 		}
 		temp = strtok(NULL, ":");
 	}
-/*	free(ret);*/
 	return (ret);
 }
 /**
@@ -55,31 +59,17 @@ char *path_ch(char *s, char *path)
  * @en: environment
  * Return: the path
  */
-char *_path(char *s, char **en)
+char *_path(char *s, char **env)
 {
-	int i,  j, k, size = 0, size1 = 0, found;
+	int i,  j,  size = 0, found;
 	char *temp, *path;
-	char **env;
+	char *en;
 
 	if (!access(s, X_OK))
 		return (NULL);
 	temp = "PATH";
-	while (en[size])
+	while (env[size])
 		size++;
-	env = malloc(sizeof(char *) * (size + 1));
-	if (!env)
-		return (NULL);
-	while (en[size1])
-	{
-		env[size1] = malloc(strlen(en[size1]));
-		if (!env[size1])
-		{
-			for (k = 0; k < size1; k++)
-				free(env[k]);
-			free(env);
-			return (NULL);
-		} strcpy(env[size1], en[size1]), size1++;
-	}
 	for (i = 0; i < size; i++)
 	{
 		for (j = 0; j < 4; j++)
@@ -93,7 +83,16 @@ char *_path(char *s, char **en)
 		if (found == 1)
 			break;
 	}
-	temp = strtok(env[i], "="), temp = strtok(NULL, "=");
-	path = path_ch(s, temp), k = 0;
+	if(!found)
+		return(NULL);
+	en = malloc(strlen(env[i]));
+	if(!en)
+		return (NULL);
+	strcpy(en, env[i]);
+	temp = strtok(en, "="), temp = strtok(NULL, "=");
+	if(!temp)
+		return (NULL);
+	path = path_ch(s, temp);
+/*	free(en);*/
 	return (path);
 }
