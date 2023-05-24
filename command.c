@@ -15,6 +15,7 @@ char **command_line(char *s)
 	tok = tok1;
 	while (tok != NULL)
 	{
+
 		count++;
 		tok = strtok(NULL, " ");
 	}
@@ -25,7 +26,11 @@ char **command_line(char *s)
 	while (tok != NULL)
 	{
 		if (tok[0] == '#')
-			break;
+		{
+			argv[index] = NULL;
+			free(s);
+			return (argv);
+		}
 		argv[index] = malloc(stringlen(tok) + 1);
 		for (i = 0; i < stringlen(tok); i++)
 			argv[index][i] = tok[i];
