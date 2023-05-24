@@ -70,7 +70,7 @@ int main(__attribute__((unused))int ac, char **av, char **env)
 		if (getline(&s, &size, stdin) == -1)
 			exit(0);
 		argv = command_line(s), exit_status(argv);
-		if (!(argv) || environment(argv ) || _cd(av[0], argv, env))
+		if (!(argv[0]) || environment(argv ) || _cd(av[0], argv, env))
 		{
 			free_argv(argv);
 			continue;
@@ -91,5 +91,6 @@ int main(__attribute__((unused))int ac, char **av, char **env)
 		}
 		if (id == -1 || execve(argv[0], argv, env) == -1)
 			perror(av[0]), exit(1);
+/*		free_argv(argv);*/
 	} return (0);
 }

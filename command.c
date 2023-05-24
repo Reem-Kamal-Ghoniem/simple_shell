@@ -19,12 +19,11 @@ char **command_line(char *s)
 		tok = strtok(NULL, " ");
 	}
 
-	argv = malloc(sizeof(char *) * (count + 1));
+	argv = malloc(sizeof(char *) * (count + 2));
 	tok = strtok(tok1, " ");
 
 	while (tok != NULL)
 	{
-		printf("reem");
 		argv[index] = malloc(stringlen(tok) + 1);
 		for (i = 0; i < stringlen(tok); i++)
 			argv[index][i] = tok[i];
@@ -33,6 +32,8 @@ char **command_line(char *s)
 		tok = strtok(NULL, " ");
 	}
 	argv[index] = NULL;
+	if (!index)
+		return (argv);
 
 	free(s);
 	return (argv);
