@@ -29,9 +29,8 @@ void exit_status(char **tok)
  * Return: int
  */
 
-int environment(char **tok)
+int environment(char **tok, char **env)
 {
-	char **env = environ;
 
 	if (tok[0] != NULL && stringcmp(tok[0], "env"))
 	{
