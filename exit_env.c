@@ -13,10 +13,14 @@ void exit_status(char **tok)
 		if (tok[1] != NULL)
 		{
 			status = atoi(tok[1]);
+			free_argv(tok);
 			_exit(status);
 		}
 		else
+		{
+			free_argv(tok);
 			_exit(0);
+		}
 	}
 }
 /**

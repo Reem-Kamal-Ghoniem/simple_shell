@@ -33,6 +33,7 @@ char **command_line(char *s)
 	}
 	argv[index] = NULL;
 	if (!index)
+
 		return (argv);
 
 	free(s);
