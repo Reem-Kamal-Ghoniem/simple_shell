@@ -29,7 +29,7 @@ void non_interactive(char **av, char **env)
 		exit(0);
 	argv = command_line(s);
 	exit_status(argv);
-	if (!(argv[0]) || environment(argv) || _cd(av[0], argv, env))
+	if (!(argv[0]) || environment(argv, env) || _cd(av[0], argv, env))
 	{
 		free_argv(argv);
 		return;
