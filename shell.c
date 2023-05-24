@@ -68,7 +68,10 @@ int main(__attribute__((unused))int ac, char **av, char **env)
 		if (isatty(STDIN_FILENO))
 			write(1, "#cisfun$ ", 9);
 		if (getline(&s, &size, stdin) == -1)
+		{
+			write(1, "\n", 1);
 			exit(0);
+		}
 		argv = command_line(s), exit_status(argv);
 		if (!(argv[0]) || environment(argv ) || _cd(av[0], argv, env))
 		{
