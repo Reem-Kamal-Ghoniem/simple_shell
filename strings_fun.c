@@ -11,6 +11,8 @@ char *stringtok(char *str, const char *del)
 	char *start;
 	char *end;
 
+
+
 	if (str != NULL)
 		start = str;
 	else
