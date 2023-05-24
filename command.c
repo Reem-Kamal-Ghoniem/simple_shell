@@ -21,8 +21,10 @@ char **command_line(char *s)
 
 	argv = malloc(sizeof(char *) * (count + 1));
 	tok = strtok(tok1, " ");
+
 	while (tok != NULL)
 	{
+		printf("reem");
 		argv[index] = malloc(stringlen(tok) + 1);
 		for (i = 0; i < stringlen(tok); i++)
 			argv[index][i] = tok[i];
