@@ -26,11 +26,13 @@ char **command_line(char *s)
 		argv[index] = malloc(stringlen(tok) + 1);
 		for (i = 0; i < stringlen(tok); i++)
 			argv[index][i] = tok[i];
+		argv[index][i] = '\0';
 		index++;
 		tok = strtok(NULL, " ");
 	}
 	argv[index] = NULL;
 
+	free(s);
 	return (argv);
 }
 /**
