@@ -54,9 +54,9 @@ int main(__attribute__((unused))int ac, char **av, char **env)
 	pid_t id;
 	struct stat file;
 
-	if (!isatty(STDIN_FILENO))
-		non_interactive(av, env);
-	while (isatty(STDIN_FILENO))
+/*	if (!isatty(STDIN_FILENO))
+		non_interactive(av, env);*/
+	while (1)
 	{
 /*		if (av[1])
 		{
@@ -65,7 +65,8 @@ int main(__attribute__((unused))int ac, char **av, char **env)
 				perror(av[0]), exit(1);
 		}
 		else*/
-		write(1, "#cisfun$ ", 9);
+		if(isatty(STDIN_FILENO))
+			write(1, "#cisfun$ ", 9);
 		if (getline(&s, &size, stdin) == -1)
 			exit(0);
 		argv = command_line(s), exit_status(argv);
