@@ -3,11 +3,11 @@
  * stringtok - function that splits a string
  * @str: the string to be splited
  * @del: the point to split from
- * Returns: string
+ * Return: string
  */
 char *stringtok(char *str, const char *del)
 {
-	static char *token = NULL;
+	static char *token;
 	char *start;
 	char *end;
 
@@ -29,7 +29,7 @@ char *stringtok(char *str, const char *del)
 		token = NULL;
 
 	token = token;
-	return start;
+	return (start);
 }
 /**
  * stringlen - function that calculate the length

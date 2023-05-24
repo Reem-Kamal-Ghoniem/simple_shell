@@ -13,8 +13,8 @@ char *string_concat(char *path, char *ss, char *s)
 	char *ret;
 
 	ret = malloc(strlen(path) + strlen(s) + 2);
-	if(!ret)
-		return(ret);
+	if (!ret)
+		return (ret);
 	for (i = 0; i < strlen(path); i++)
 		ret[i] = path[i];
 	for (k = 0; k < strlen(ss); k++)
@@ -56,7 +56,7 @@ char *path_ch(char *s, char *path)
 /**
  * _path - get the path variable
  * @s: the command
- * @en: environment
+ * @env: environment
  * Return: the path
  */
 char *_path(char *s, char **env)
@@ -83,16 +83,16 @@ char *_path(char *s, char **env)
 		if (found == 1)
 			break;
 	}
-	if(!found)
-		return(NULL);
+	if (!found)
+		return (NULL);
 	en = malloc(strlen(env[i]));
-	if(!en)
+	if (!en)
 		return (NULL);
 	strcpy(en, env[i]);
 	temp = strtok(en, "="), temp = strtok(NULL, "=");
-	if(!temp)
+	if (!temp)
 		return (NULL);
 	path = path_ch(s, temp);
-/*	free(en);*/
+
 	return (path);
 }

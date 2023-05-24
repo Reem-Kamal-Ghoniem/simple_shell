@@ -1,7 +1,7 @@
 #include "main.h"
 /**
  * exit_status - function handles exit and its arguments
- * @s: the entered command
+ * @tok: the entered command
  * Return: void
  */
 void exit_status(char **tok)
@@ -24,11 +24,11 @@ void exit_status(char **tok)
 	}
 }
 /**
- * envronment - function that handle env
+ * environment - function that handle env
  * @tok: the written line
  * Return: int
  */
-extern char **environ;
+
 int environment(char **tok)
 {
 	char **env = environ;

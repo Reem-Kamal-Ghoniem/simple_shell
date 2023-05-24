@@ -23,4 +23,5 @@ void exit_status(char **tok);
 int environment(char **tok);
 char *stringtok(char *str, const char *del);
 int _cd(char *name, char **arg, char **env);
+extern char **environ;
 #endif

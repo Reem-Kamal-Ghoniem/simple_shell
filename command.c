@@ -24,6 +24,8 @@ char **command_line(char *s)
 
 	while (tok != NULL)
 	{
+		if (tok[0] == '#')
+			break;
 		argv[index] = malloc(stringlen(tok) + 1);
 		for (i = 0; i < stringlen(tok); i++)
 			argv[index][i] = tok[i];
