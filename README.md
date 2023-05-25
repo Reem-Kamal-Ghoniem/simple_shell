@@ -1,1 +1,1 @@
-making a small simple shell using C
+here is a real shell you can use it instead of your current shell
