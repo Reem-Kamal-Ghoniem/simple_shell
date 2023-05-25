@@ -22,6 +22,7 @@ void exit_status(char **tok)
 			_exit(0);
 		}
 	}
+
 }
 /**
  * environment - function that handle env
