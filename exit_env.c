@@ -4,7 +4,7 @@
  * @tok: the entered command
  * Return: void
  */
-void exit_status(char **tok)
+void exit_status(char **tok, char *s)
 {
 	int status;
 
@@ -14,11 +14,13 @@ void exit_status(char **tok)
 		{
 			status = atoi(tok[1]);
 			free_argv(tok);
+			free (s);
 			_exit(status);
 		}
 		else
 		{
 			free_argv(tok);
+			free (s);
 			_exit(0);
 		}
 	}

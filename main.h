@@ -19,7 +19,7 @@ char *path_ch(char *s, char *path);
 void free_argv(char **argv);
 int stringlen(char *str);
 int stringcmp(char *str1, char *str2);
-void exit_status(char **tok);
+void exit_status(char **tok, char *s);
 int environment(char **tok, char **env);
 char *stringtok(char *str, const char *del);
 int _cd(char *name, char **arg, char **env);
