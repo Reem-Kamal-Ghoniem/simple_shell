@@ -8,8 +8,8 @@
  */
 int _cd(char *name, char **arg, char **env)
 {
-/**	size_t size = 0;
-	char *s = NULL;*/
+	size_t size = 0;
+	char *s = NULL;
 	(void)env;
 
 	if (strcmp(arg[0], "cd"))
@@ -28,9 +28,10 @@ int _cd(char *name, char **arg, char **env)
 				perror(name);
 	}
 	else
+	{
 		if (chdir(getenv("HOME")))
 			perror(name);
-
-/**	setenv("PWD", getcwd(&s, &size);*/
+	}
+	setenv("PWD", getcwd(s, size), 1);
 	return (1);
 }

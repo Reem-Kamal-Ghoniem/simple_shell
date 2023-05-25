@@ -2,6 +2,7 @@
 /**
  * exit_status - function handles exit and its arguments
  * @tok: the entered command
+ * @s: the result of getline
  * Return: void
  */
 void exit_status(char **tok, char *s)
@@ -14,13 +15,13 @@ void exit_status(char **tok, char *s)
 		{
 			status = atoi(tok[1]);
 			free_argv(tok);
-			free (s);
+			free(s);
 			_exit(status);
 		}
 		else
 		{
 			free_argv(tok);
-			free (s);
+			free(s);
 			_exit(0);
 		}
 	}
