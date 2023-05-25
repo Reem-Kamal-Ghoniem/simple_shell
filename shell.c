@@ -55,14 +55,19 @@ int main(__attribute__((unused))int ac, char **av, char **env)
 	char *s = NULL, *t;
 	int st;
 	pid_t id;
+	FILE *fd = stdin;
 
-/*	if (!isatty(STDIN_FILENO))*/
-/*		non_interactive(av, env);*/
+	if (av[1])
+	{
+		fd = fopen(av[1], "r");
+		if (fd == NULL)
+		perror(av[0]), exit(1);
+	}
 	while (1)
 	{
-		if (isatty(STDIN_FILENO))
+		if (isatty(STDIN_FILENO) && fd == stdin)
 			write(1, "#cisfun$ ", 9);
-		if (getline(&s, &size, stdin) == -1)
+		if (getline(&s, &size, fd) == -1)
 			free(s), exit(0);
 		argv = command_line(s), exit_status(argv, s);
 		if (!(argv[0]) || environment(argv, env) || _cd(av[0], argv, env))
@@ -79,12 +84,10 @@ int main(__attribute__((unused))int ac, char **av, char **env)
 		} id = fork();
 		if (id > 0)
 		{
-			waitpid(id, &st, 0);
-			free_argv(argv);
+			waitpid(id, &st, 0), free_argv(argv);
 			continue;
 		}
 		if (id == -1 || execve(argv[0], argv, env) == -1)
 			perror(av[0]), exit(1);
-/*		free_argv(argv);*/
 	} return (0);
 }
