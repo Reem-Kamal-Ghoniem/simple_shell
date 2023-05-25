@@ -43,7 +43,7 @@ char **command_line(char *s)
 
 		return (argv);
 
-	free(s);
+/*	free(s);*/
 	return (argv);
 }
 /**
