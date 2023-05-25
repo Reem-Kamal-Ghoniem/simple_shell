@@ -64,7 +64,7 @@ int main(__attribute__((unused))int ac, char **av, char **env)
 			write(1, "#cisfun$ ", 9);
 		if (getline(&s, &size, stdin) == -1)
 			free(s), exit(0);
-		argv = command_line(s), exit_status(argv, s);
+		argv = command_line(s), exit_status(argv);
 		if (!(argv[0]) || environment(argv, env) || _cd(av[0], argv, env))
 		{
 			free_argv(argv);

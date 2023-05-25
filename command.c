@@ -28,7 +28,6 @@ char **command_line(char *s)
 		if (tok[0] == '#')
 		{
 			argv[index] = NULL;
-			free(s);
 			return (argv);
 		}
 		argv[index] = malloc(stringlen(tok) + 1);

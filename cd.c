@@ -8,6 +8,8 @@
  */
 int _cd(char *name, char **arg, char **env)
 {
+/**	size_t size = 0;
+	char *s = NULL;*/
 	(void)env;
 
 	if (strcmp(arg[0], "cd"))
@@ -29,7 +31,6 @@ int _cd(char *name, char **arg, char **env)
 		if (chdir(getenv("HOME")))
 			perror(name);
 
-
+/**	setenv("PWD", getcwd(&s, &size);*/
 	return (1);
 }
-
